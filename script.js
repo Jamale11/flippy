@@ -7,12 +7,12 @@ canvas.height = 480;
 
 // Gambar burung
 let bird = new Image();
-bird.src = "bg.png";
+bird.src = "bg.png"; // 👉 ganti "bird.png" dengan gambar kamu, misalnya "me.png"
 
 // Posisi burung
-let bx = 30;
-let by = 130;
-let gravity = 0,6;
+let bx = 50;
+let by = 150;
+let gravity = 1.0;
 let velocity = 0;
 
 // Pipa
@@ -37,7 +37,7 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Burung
-  ctx.drawImage(bird, bx, by, 30, 30);
+  ctx.drawImage(bird, bx, by, 40, 40);
 
   velocity += gravity;
   by += velocity;
