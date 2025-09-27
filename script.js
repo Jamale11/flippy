@@ -7,7 +7,7 @@ canvas.height = 480;
 
 // Gambar burung
 let bird = new Image();
-bird.src = "bird.png"; // 👉 ganti "bird.png" dengan gambar kamu, misalnya "me.png"
+bird.src = "bg.png"; // 👉 ganti "bird.png" dengan gambar kamu, misalnya "me.png"
 
 // Posisi burung
 let bx = 30;
