@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const scoreEl = document.getElementById("score");
 
-let bird = { x: 50, y: 200, size: 20, gravity: 0.5, lift: -8, velocity: 0 };
+let bird = (bird.src = "me.png";){ x: 50, y: 200, size: 20, gravity: 0.5, lift: -8, velocity: 0 };
 let pipes = [];
 let frame = 0;
 let score = 0;
