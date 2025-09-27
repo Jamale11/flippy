@@ -12,7 +12,7 @@ bird.src = "bg.png";
 // Posisi burung
 let bx = 30;
 let by = 130;
-let gravity = 0.5;
+let gravity = 1.0;
 let velocity = 0;
 
 // Pipa
@@ -27,7 +27,7 @@ let score = 0;
 document.addEventListener("keydown", jump);
 canvas.addEventListener("click", jump);
 function jump() {
-  velocity = -10;
+  velocity = -15;
 }
 
 // Loop game
