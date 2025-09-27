@@ -1,110 +1,87 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const scoreEl = document.getElementById("score");
 
-let bird = (bird.src = "me.png";){ x: 50, y: 200, size: 20, gravity: 0.5, lift: -8, velocity: 0 };
-let pipes = [];
-let frame = 0;
+// Ukuran canvas
+canvas.width = 320;
+canvas.height = 480;
+
+// Gambar burung
+let bird = new Image();
+bird.src = "bg.png";
+
+// Posisi burung
+let bx = 50;
+let by = 150;
+let gravity = 1.5;
+let velocity = 0;
+
+// Pipa
+let pipeWidth = 50;
+let pipeGap = 120;
+let pipes = [{ x: canvas.width, y: 0 }];
+
+// Skor
 let score = 0;
-let gameOver = false;
 
-function drawBird() {
-  ctx.fillStyle = "yellow";
-  ctx.beginPath();
-  ctx.arc(bird.x, bird.y, bird.size, 0, Math.PI * 2);
-  ctx.fill();
+// Kontrol
+document.addEventListener("keydown", jump);
+canvas.addEventListener("click", jump);
+function jump() {
+  velocity = -20;
 }
 
-function drawPipes() {
-  ctx.fillStyle = "green";
-  pipes.forEach(pipe => {
-    ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
-    ctx.fillRect(pipe.x, canvas.height - pipe.bottom, pipe.width, pipe.bottom);
-  });
-}
+// Loop game
+function draw() {
+  // Background langit
+  ctx.fillStyle = "#87CEEB";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-function update() {
-  if (gameOver) return;
+  // Burung
+  ctx.drawImage(bird, bx, by, 40, 40);
 
-  frame++;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  velocity += gravity;
+  by += velocity;
 
-  // Bird physics
-  bird.velocity += bird.gravity;
-  bird.y += bird.velocity;
+  // Pipa
+  for (let i = 0; i < pipes.length; i++) {
+    let p = pipes[i];
+    let pipeHeight = 200;
 
-  if (bird.y + bird.size > canvas.height || bird.y - bird.size < 0) {
-    endGame();
-  }
+    // Pipa atas
+    ctx.fillStyle = "green";
+    ctx.fillRect(p.x, p.y, pipeWidth, pipeHeight);
 
-  // Add pipes
-  if (frame % 100 === 0) {
-    let gap = 120;
-    let top = Math.random() * (canvas.height - gap - 100) + 50;
-    pipes.push({
-      x: canvas.width,
-      width: 40,
-      top: top,
-      bottom: canvas.height - top - gap
-    });
-  }
+    // Pipa bawah
+    ctx.fillRect(p.x, pipeHeight + pipeGap, pipeWidth, canvas.height);
 
-  // Move pipes
-  pipes.forEach(pipe => {
-    pipe.x -= 2;
+    p.x--;
 
-    // Collision detection
+    // Tambah pipa baru
+    if (p.x === 150) {
+      pipes.push({ x: canvas.width, y: Math.floor(Math.random() * -100) });
+    }
+
+    // Cek tabrakan
     if (
-      bird.x + bird.size > pipe.x &&
-      bird.x - bird.size < pipe.x + pipe.width &&
-      (bird.y - bird.size < pipe.top ||
-        bird.y + bird.size > canvas.height - pipe.bottom)
+      bx + 40 >= p.x &&
+      bx <= p.x + pipeWidth &&
+      (by <= pipeHeight || by + 40 >= pipeHeight + pipeGap)
     ) {
-      endGame();
+      location.reload(); // Restart game
     }
 
-    // Score
-    if (pipe.x + pipe.width === bird.x) {
+    // Tambah skor
+    if (p.x === bx) {
       score++;
-      scoreEl.textContent = score;
     }
-  });
-
-  // Remove off-screen pipes
-  pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
-
-  drawBird();
-  drawPipes();
-
-  requestAnimationFrame(update);
-}
-
-function endGame() {
-  gameOver = true;
-  ctx.fillStyle = "red";
-  ctx.font = "30px Arial";
-  ctx.fillText("Game Over!", 120, canvas.height / 2);
-}
-
-function flap() {
-  if (!gameOver) {
-    bird.velocity = bird.lift;
-  } else {
-    // Restart game
-    bird.y = 200;
-    bird.velocity = 0;
-    pipes = [];
-    frame = 0;
-    score = 0;
-    scoreEl.textContent = score;
-    gameOver = false;
-    update();
   }
+
+  // Skor
+  ctx.fillStyle = "white";
+  ctx.font = "20px Arial";
+  ctx.fillText("Score: " + score, 10, canvas.height - 20);
+
+  requestAnimationFrame(draw);
 }
 
-canvas.addEventListener("click", flap);
-document.addEventListener("keydown", (e) => {
-  if (e.code === "Space") flap();
-});
-
-update();
+draw();
