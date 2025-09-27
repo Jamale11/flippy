@@ -37,7 +37,7 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Burung
-  ctx.drawImage(bird, bx, by, 20, 20);
+  ctx.drawImage(bird, bx, by, 30, 30);
 
   velocity += gravity;
   by += velocity;
