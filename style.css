@@ -1,8 +1,8 @@
 body {
-  text-align: center;
-  font-family: sans-serif;
-  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+  background: url("bg.png") no-repeat center center fixed;
+  background-size: cover;
 }
+
 
 h1 {
   margin: 10px 0;
