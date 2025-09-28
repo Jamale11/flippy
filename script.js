@@ -39,7 +39,7 @@ function jump() {
 // Loop game
 function draw() {
   // Background
-  ctx.fillStyle = "#87CEEB";
+  ctx.fillStyle = "rialo.png";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Burung
