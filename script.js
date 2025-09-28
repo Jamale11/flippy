@@ -7,12 +7,12 @@ canvas.height = 480;
 
 // Gambar burung
 let bird = new Image();
-bird.src = "rialo.png"; // 👉 ganti "bird.png" dengan gambar kamu, misalnya "me.png"
+bird.src = "rialo.png"; // 👉 ganti dengan gambar kamu (misalnya "me.png")
 
 // Posisi burung
-let bx = 30;
-let by = 130;
-let gravity = 0.2;
+let bx = 50;
+let by = 150;
+let gravity = 0.5;   // semakin kecil semakin lambat jatuh
 let velocity = 0;
 
 // Pipa
@@ -27,7 +27,7 @@ let score = 0;
 document.addEventListener("keydown", jump);
 canvas.addEventListener("click", jump);
 function jump() {
-  velocity = -5;
+  velocity = -5; // semakin kecil, lompat makin rendah
 }
 
 // Loop game
@@ -37,7 +37,7 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Burung
-  ctx.drawImage(bird, bx, by, 30, 30);
+  ctx.drawImage(bird, bx, by, 40, 40);
 
   velocity += gravity;
   by += velocity;
@@ -45,7 +45,9 @@ function draw() {
   // Pipa
   for (let i = 0; i < pipes.length; i++) {
     let p = pipes[i];
-    let pipeHeight = 200;
+
+    // Tinggi pipa atas random
+    let pipeHeight = Math.floor(Math.random() * (canvas.height - pipeGap - 50));
 
     // Pipa atas
     ctx.fillStyle = "green";
@@ -54,11 +56,17 @@ function draw() {
     // Pipa bawah
     ctx.fillRect(p.x, pipeHeight + pipeGap, pipeWidth, canvas.height);
 
+    // Gerakan pipa ke kiri
     p.x--;
 
-    // Tambah pipa baru
+    // Tambah pipa baru saat posisi tertentu
     if (p.x === 150) {
-      pipes.push({ x: canvas.width, y: Math.floor(Math.random() * -100) });
+      pipes.push({ x: canvas.width, y: 0 });
+    }
+
+    // Hapus pipa lama
+    if (p.x + pipeWidth < 0) {
+      pipes.shift();
     }
 
     // Cek tabrakan
@@ -67,7 +75,8 @@ function draw() {
       bx <= p.x + pipeWidth &&
       (by <= pipeHeight || by + 40 >= pipeHeight + pipeGap)
     ) {
-      location.reload(); // Restart game
+      alert("Game Over! Skor kamu: " + score);
+      document.location.reload();
     }
 
     // Tambah skor
@@ -81,6 +90,7 @@ function draw() {
   ctx.font = "20px Arial";
   ctx.fillText("Score: " + score, 10, canvas.height - 20);
 
+  // Ulang loop
   requestAnimationFrame(draw);
 }
 
