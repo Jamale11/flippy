@@ -33,7 +33,7 @@ let score = 0;
 document.addEventListener("keydown", jump);
 canvas.addEventListener("click", jump);
 function jump() {
-  velocity = -5;
+  velocity = -10;
 }
 
 // Loop game
