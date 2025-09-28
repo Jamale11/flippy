@@ -7,12 +7,12 @@ canvas.height = 480;
 
 // Gambar burung
 let bird = new Image();
-bird.src = "bg.png"; // 👉 ganti "bird.png" dengan gambar kamu, misalnya "me.png"
+bird.src = "rialo.png"; // 👉 ganti "bird.png" dengan gambar kamu, misalnya "me.png"
 
 // Posisi burung
 let bx = 30;
 let by = 130;
-let gravity = 0.5;
+let gravity = 0.2;
 let velocity = 0;
 
 // Pipa
@@ -27,7 +27,7 @@ let score = 0;
 document.addEventListener("keydown", jump);
 canvas.addEventListener("click", jump);
 function jump() {
-  velocity = -12;
+  velocity = -10;
 }
 
 // Loop game
