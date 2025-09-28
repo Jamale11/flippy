@@ -12,12 +12,12 @@ bird.src = "rialo.png"; // 👉 ganti dengan gambar kamu
 // Posisi burung
 let bx = 50;
 let by = 150;
-let gravity = 0.4;
+let gravity = 0.6;  // lebih ringan jatuhnya
 let velocity = 0;
 
 // Pipa
 let pipeWidth = 50;
-let pipeGap = 120;
+let pipeGap = 200;  // 👉 diperbesar biar gampang lewat
 let pipes = [
   {
     x: canvas.width,
@@ -33,7 +33,7 @@ let score = 0;
 document.addEventListener("keydown", jump);
 canvas.addEventListener("click", jump);
 function jump() {
-  velocity = -7;
+  velocity = -6; // loncatan lebih halus
 }
 
 // Loop game
@@ -43,7 +43,7 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Burung
-  ctx.drawImage(bird, bx, by, 25, 25);
+  ctx.drawImage(bird, bx, by, 30, 30);
 
   velocity += gravity;
   by += velocity;
@@ -59,7 +59,7 @@ function draw() {
     // Pipa bawah
     ctx.fillRect(p.x, p.height + pipeGap, pipeWidth, canvas.height);
 
-    // Gerakan pipa ke kiri
+    // Gerakan pipa
     p.x--;
 
     // Tambah pipa baru
@@ -86,13 +86,13 @@ function draw() {
       document.location.reload();
     }
 
-    // Tambah skor
+    // Skor
     if (p.x === bx) {
       score++;
     }
   }
 
-  // Skor
+  // Skor tampil
   ctx.fillStyle = "white";
   ctx.font = "20px Arial";
   ctx.fillText("Score: " + score, 10, canvas.height - 20);
