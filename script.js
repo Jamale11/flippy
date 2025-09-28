@@ -12,7 +12,7 @@ bird.src = "rialo.png"; // 👉 ganti dengan gambar kamu
 // Posisi burung
 let bx = 50;
 let by = 150;
-let gravity = 0.6;  // lebih ringan jatuhnya
+let gravity = 0.4;  // lebih ringan jatuhnya
 let velocity = 0;
 
 // Pipa
